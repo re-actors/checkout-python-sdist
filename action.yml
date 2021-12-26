@@ -1,0 +1,45 @@
+---
+
+name: checkout-python-sdist
+description: >-
+  GitHub Action for unpacking the source out of
+  a source Python package distribution tarball
+author: >-
+  Sviatoslav Sydorenko
+  <wk+~github.com/re-actors/checkout-python-sdist@sydorenko.org.ua>
+
+branding:
+  icon: git-pull-request
+  color: blue
+
+inputs:
+  source-tarball-name:
+    default: >-
+      *.tar.gz
+    description: >-
+      A glob for the source distribution tarball filename
+      in the artifact (defaults to `*.tar.gz`)
+    required: false
+  workflow-artifact-name:
+    default: python-package-distributions
+    description: >-
+      Used to extract the source distribution tarball from
+      (defaults to `python-package-distributions`)
+    required: false
+
+runs:
+  using: composite
+  steps:
+  - name: Retrieve the dists from a GHA artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: ${{ inputs.workflow-artifact-name }}
+      path: ${{ github.action_path }}/.tmp
+  - name: Get the source out of the tarball
+    run: >-
+      tar xzvf ${{ inputs.source-tarball-name }}
+      --directory='${{ github.workspace }}' --strip-components=1
+    working-directory: ${{ github.action_path }}/.tmp
+    shell: bash
+
+...

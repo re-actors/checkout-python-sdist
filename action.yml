@@ -30,6 +30,16 @@ inputs:
 runs:
   using: composite
   steps:
+  - name: Error out on empty workflow artifact input
+    if: >-
+      !inputs.workflow-artifact-name
+    run: exit 1
+    shell: bash
+  - name: Error out on empty tarball input
+    if: >-
+      !inputs.source-tarball-name
+    run: exit 1
+    shell: bash
   - name: Retrieve the dists from a GHA artifact
     uses: actions/download-artifact@v2
     with:

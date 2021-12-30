@@ -35,6 +35,9 @@ runs:
     with:
       name: ${{ inputs.workflow-artifact-name }}
       path: ${{ github.action_path }}/.tmp
+  - name: Ensure the workspace directory exists
+    run: mkdir -pv '${{ github.workspace }}'
+    shell: bash
   - name: Get the source out of the tarball
     run: >-
       tar xzvf ${{ inputs.source-tarball-name }}

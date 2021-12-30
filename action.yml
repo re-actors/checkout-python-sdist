@@ -45,10 +45,21 @@ runs:
     with:
       name: ${{ inputs.workflow-artifact-name }}
       path: ${{ github.action_path }}/.tmp
+  - name: >-
+      Get a *NIX-style workspace directory absolute path
+    # NOTE: This is necessary because attempting to use ${{ github.workspace }}
+    # NOTE: in the `tar` command makes it error out under Windows workers. This
+    # NOTE: is supposedly happening because `shell: bash` uses Git Bash (v4)
+    # NOTE: and not MINGW Bash (v5) which does not have this problem.
+    id: workdir
+    run: echo "::set-output name=path::$(pwd)"
+    working-directory: ${{ github.workspace }}
+    shell: bash
   - name: Get the source out of the tarball
     run: >-
       tar xzvf ${{ inputs.source-tarball-name }}
-      --directory='${{ github.workspace }}' --strip-components=1
+      --directory='${{ steps.workdir.outputs.path }}'
+      --strip-components=1
     working-directory: ${{ github.action_path }}/.tmp
     shell: bash
 

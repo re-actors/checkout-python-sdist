@@ -52,7 +52,8 @@ runs:
     # NOTE: is supposedly happening because `shell: bash` uses Git Bash (v4)
     # NOTE: and not MINGW Bash (v5) which does not have this problem.
     id: workdir
-    run: echo "::set-output name=path::$(pwd)"
+    run: >-
+      echo path="$(pwd)" >> "${GITHUB_OUTPUT}"
     working-directory: ${{ github.workspace }}
     shell: bash
   - name: Get the source out of the tarball

@@ -1,4 +1,5 @@
 ---
+
 name: checkout-python-sdist
 description: >-
   GitHub Action for unpacking the source out of
@@ -29,36 +30,38 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Error out on empty workflow artifact input
-      if: >-
-        !inputs.workflow-artifact-name
-      run: exit 1
-      shell: bash
-    - name: Error out on empty tarball input
-      if: >-
-        !inputs.source-tarball-name
-      run: exit 1
-      shell: bash
-    - name: Retrieve the dists from a GHA artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ inputs.workflow-artifact-name }}
-        path: ${{ github.action_path }}/.tmp
-    - name: >-
-        Get a *NIX-style workspace directory absolute path
-      # NOTE: This is necessary because attempting to use ${{ github.workspace }}
-      # NOTE: in the `tar` command makes it error out under Windows workers. This
-      # NOTE: is supposedly happening because `shell: bash` uses Git Bash (v4)
-      # NOTE: and not MINGW Bash (v5) which does not have this problem.
-      id: workdir
-      run: >-
-        echo path="$(pwd)" >> "${GITHUB_OUTPUT}"
-      working-directory: ${{ github.workspace }}
-      shell: bash
-    - name: Get the source out of the tarball
-      run: >-
-        tar xzvf ${{ inputs.source-tarball-name }}
-        --directory='${{ steps.workdir.outputs.path }}'
-        --strip-components=1
-      working-directory: ${{ github.action_path }}/.tmp
-      shell: bash
+  - name: Error out on empty workflow artifact input
+    if: >-
+      !inputs.workflow-artifact-name
+    run: exit 1
+    shell: bash
+  - name: Error out on empty tarball input
+    if: >-
+      !inputs.source-tarball-name
+    run: exit 1
+    shell: bash
+  - name: Retrieve the dists from a GHA artifact
+    uses: actions/download-artifact@v3
+    with:
+      name: ${{ inputs.workflow-artifact-name }}
+      path: ${{ github.action_path }}/.tmp
+  - name: >-
+      Get a *NIX-style workspace directory absolute path
+    # NOTE: This is necessary because attempting to use ${{ github.workspace }}
+    # NOTE: in the `tar` command makes it error out under Windows workers. This
+    # NOTE: is supposedly happening because `shell: bash` uses Git Bash (v4)
+    # NOTE: and not MINGW Bash (v5) which does not have this problem.
+    id: workdir
+    run: >-
+      echo path="$(pwd)" >> "${GITHUB_OUTPUT}"
+    working-directory: ${{ github.workspace }}
+    shell: bash
+  - name: Get the source out of the tarball
+    run: >-
+      tar xzvf ${{ inputs.source-tarball-name }}
+      --directory='${{ steps.workdir.outputs.path }}'
+      --strip-components=1
+    working-directory: ${{ github.action_path }}/.tmp
+    shell: bash
+
+...

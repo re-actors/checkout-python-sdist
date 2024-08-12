@@ -41,7 +41,7 @@ runs:
     run: exit 1
     shell: bash
   - name: Retrieve the dists from a GHA artifact
-    uses: actions/download-artifact@v3
+    uses: actions/download-artifact@v4
     with:
       name: ${{ inputs.workflow-artifact-name }}
       path: ${{ github.action_path }}/.tmp

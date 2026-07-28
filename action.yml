@@ -41,8 +41,15 @@ runs:
     run: exit 1
     shell: bash
   - name: Retrieve the dists from a GHA artifact
-    uses: actions/download-artifact@v4
+    uses: actions/download-artifact@v8
     with:
+      # v8 added an error-by-default digest artifact digest checking behavior
+      # but it's unclear what the side effects would be for us so we're setting
+      # it to warning for the initial version bump and then will remove the
+      # input so it'll revert back to its default of erroring out.
+      #
+      # Ref: https://github.com/actions/download-artifact/pull/461
+      digest-mismatch: warn
       name: ${{ inputs.workflow-artifact-name }}
       path: ${{ github.action_path }}/.tmp
   - name: >-

@@ -16,7 +16,7 @@ current working directory.
 ## Any users?
 
 At the moment, it is used by [@aio-libs], [@CherryPy], [pip-api],
-[some Ansible projects], with more to come.
+[reusable-tox.yml], [some Ansible projects], with more to come.
 
 
 ## License
@@ -29,5 +29,6 @@ The contents of this project is released under the
 [@aio-libs]: https://github.com/aio-libs
 [@CherryPy]: https://github.com/cherrypy
 [pip-api]: https://github.com/di/pip-api
+[reusable-tox.yml]: https://github.com/tox-dev/workflow
 [some Ansible projects]:
 https://github.com/search?q=org%3Aansible+%22uses%3A+re-actors%2Fcheckout-python-sdist%22+path%3A.github%2Fworkflows%2F&type=code

@@ -17,7 +17,7 @@ repos:
     - --py311-plus
 
 - repo: https://github.com/PyCQA/isort.git
-  rev: 9.0.0a3
+  rev: 9.0.2
   hooks:
   - id: isort
     args:
@@ -36,7 +36,7 @@ repos:
   - id: remove-tabs
 
 - repo: https://github.com/python-jsonschema/check-jsonschema.git
-  rev: 0.37.4
+  rev: 0.38.2
   hooks:
   - id: check-github-actions
   - id: check-github-workflows
@@ -91,7 +91,7 @@ repos:
   - id: debug-statements
 
 - repo: https://github.com/codespell-project/codespell.git
-  rev: v2.4.2
+  rev: v2.4.3
   hooks:
   - id: codespell
     exclude: >-
